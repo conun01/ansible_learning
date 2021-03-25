@@ -1,0 +1,20 @@
+---
+
+- hosts: all
+  tasks:
+
+  - name: update repository index
+    apt: 
+      update_cache: yes
+
+
+  - name: install apache2 to package
+    apt:
+      name: tmux
+      state: absent
+
+  - name: install nmon
+    apt:
+      name: nmon
+      state: absent
+      
