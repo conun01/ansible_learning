@@ -30,6 +30,16 @@
       - nginx
       - tmux
     when: ansible_distribution == "Ubuntu"
+
+  - name: transfer file to Ubuntu Server
+    tags: nginx
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
     
 - hosts: db_servers
   tags: postgresql
