@@ -1,0 +1,43 @@
+---
+
+- hosts: all
+  tasks:
+
+  - name: install update debians
+    tags: always
+    apt:
+      only_upgrade: yes
+      update_cache: yes
+    when: ansible_distribution == "Debian"
+
+    
+  - name: install update Ubuntu
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu" 
+
+
+- hosts: web_servers
+  tags: nginx
+  tasks:
+    
+  - name: install nginx and php for Ubuntu servers
+    apt:
+      state: latest
+      name:
+      - nginx
+      - tmux
+    when: ansible_distribution == "Ubuntu"
+    
+- hosts: db_servers
+  tags: postgresql
+  tasks:
+
+  - name: install postgresql on Debian server
+    apt:
+      state: latest
+      name:
+      - postgresql
+    when: ansible_distribution == "Debian"

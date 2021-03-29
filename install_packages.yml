@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  tasks:
+
+  - name: install tmux and  php to server
+    package:
+      name:
+        - {{ package_one }}
+        - {{ package_two }}
+
+      state: latest
+      update_cache: yes
