@@ -1,0 +1,45 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install update debians
+    tags: always
+    apt:
+      only_upgrade: yes
+      update_cache: yes
+    when: ansible_distribution == "Debian"
+
+    
+  - name: install update Ubuntu
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu" 
+
+- hosts: all
+  tasks:
+
+  - name: create user
+    tags: always
+    user:
+      name: testansible
+      groups: root
+
+  - name: add ssh key to testansible user
+    tags: always 
+    authorized_key:
+      user: testansible 
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFv6gLNe5Lp9sHovVxsh5WWxXspIf6SbJRjX/Bwry1KK for ansible"
+
+  - name: add sudoers file for testansible user
+    tags: always
+    copy:
+      src: sudoer_testansible
+      dest: /etc/sudoers.d/testansible
+      owner: root
+      group: root
+      mode: 0440
+
